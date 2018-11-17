@@ -13,8 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/feedback', 'FeedbackController@showForm');
+
+Route::post('/feedback', 'FeedbackController@saveFeedback');
