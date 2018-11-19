@@ -10,4 +10,9 @@ class Dialog extends Model
         'msg', 'feedback_id', 'user_id'
     ];
     protected $table = 'dialogs';
+
+    public function user()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }

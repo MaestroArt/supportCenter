@@ -12,12 +12,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+    return redirect(route('login'));
+});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/feedback', 'FeedbackController@showForm');
+Route::get('/home', function () {
+    return redirect('/feedbacks');
+})->middleware('auth');
 
-Route::post('/feedback', 'FeedbackController@saveFeedback');
+Route::get('/feedback', 'FeedbackController@showForm')->middleware('auth');
+Route::get('/feedbacks', 'FeedbackController@showAll')->middleware('auth');
+
+Route::post('/feedback', 'FeedbackController@saveFeedback')->middleware('auth');
+
+Route::get('/dialog/{feedback_id}',[
+   'uses'=>'FeedbackController@dialog',
+    'as'=>'dialog'
+])->middleware('auth');
+Route::post('/dialog', 'FeedbackController@saveDialog')->middleware('auth');

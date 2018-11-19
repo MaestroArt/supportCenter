@@ -27,12 +27,52 @@ class FeedbackController extends Controller
             'img' => $img,
         ]);
         
-        return redirect(url('/home'));
+        return redirect(url('/feedbacks'));
     }
 
     public function showForm()
     {
     	return view('feedbackform');
+    }
+    public function showAll()
+    {
+        $msgs=$columns=null;
+        $names=['created_at'=>'Date','user_id'=>'User','title'=>'Title','status'=>'Status'];
+        if("manager"==Auth::user()->role) {
+            $msgs = Feedback::all();
+            $columns=['created_at','user_id','title','status'];
+        }
+        else {
+            $msgs = Feedback::where('user_id',Auth::id())->get();
+            $columns=['created_at','title'];
+        }
+
+    	return view('feedbackreport', compact('msgs','columns','names'));
+    }
+    public function dialog($feedback_id)
+    {
+        $first = Feedback::where('id',$feedback_id)->get()[0];
+        $msgs = Feedback::find($feedback_id)->dialogs;
+
+        return view('dialogs', compact('first','msgs','feedback_id'));
+    }
+    public function saveDialog(Request $request)
+    {
+        if(!empty($request['msg'])) {
+            $feedback = Feedback::find($request['feedback_id']);
+            $feedback->dialogs()->create([
+                'user_id' => Auth::id(),
+                'msg' => $request['msg'],
+            ]);
+            if("manager"==Auth::user()->role) {
+                $feedback->status='answered';
+            }else {
+                $feedback->status='question';
+            }
+            $feedback->push();
+        }
+        
+        return redirect(url('/dialog/'.$request['feedback_id']));
     }
 
 }
