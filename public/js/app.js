@@ -14017,7 +14017,7 @@ window.Vue = __webpack_require__(37);
  */
 
 Vue.component('example-component', __webpack_require__(40));
-Vue.component('table-component', __webpack_require__(43));
+Vue.component('dialog-component', __webpack_require__(43));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
@@ -47481,7 +47481,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/TableComponent.vue"
+Component.options.__file = "resources/js/components/DialogComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47490,9 +47490,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8554570c", Component.options)
+    hotAPI.createRecord("data-v-69192b0c", Component.options)
   } else {
-    hotAPI.reload("data-v-8554570c", Component.options)
+    hotAPI.reload("data-v-69192b0c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47519,43 +47519,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['columns', 'data'],
+    props: {
+        user: String,
+        role: String,
+        dt: String,
+        msgtext: String
+    },
     mounted: function mounted() {
-        console.log('Table Component mounted.');
+        console.log('Dialog component mounted.');
         this.update();
     },
 
     methods: {
         update: function update() {
-            console.log(this.columns);
-            console.log(this.data);
+            console.log(this.user);
+            console.log(this.role);
+            console.log(this.dt);
+        }
+    },
+    computed: {
+        align: function align() {
+            if (this.role == "manager") return "right";else return "left";
         }
     }
 });
@@ -47569,79 +47555,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("table", [
-          _c("thead", [
-            _c(
-              "tr",
-              _vm._l(_vm.columns, function(col) {
-                return _c("th", [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(_vm.names[col]) +
-                      "\n                    "
-                  )
-                ])
-              })
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.data, function(row) {
-              return _c(
-                "tr",
-                [
-                  _vm._l(_vm.columns, function(col) {
-                    return _c("td", [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(row.col) +
-                          "\n                    "
-                      )
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(row.created_at))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(row.title))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(row.msg))])
-                ],
-                2
-              )
-            })
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
+    _c("p", { attrs: { align: _vm.align } }, [
+      _c("b", [_vm._v(_vm._s(_vm.user) + " at " + _vm._s(_vm.dt) + ":")])
+    ]),
+    _vm._v(" "),
+    _c("p", { attrs: { align: _vm.align } }, [
+      _vm._v("\n    " + _vm._s(_vm.msgtext) + "\n    ")
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card card-default" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Example Component")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm._v(
-          "\n                    I'm an example component.\n                "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8554570c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-69192b0c", module.exports)
   }
 }
 

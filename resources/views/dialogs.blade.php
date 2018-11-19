@@ -13,21 +13,13 @@
                     @endif
                     <table class="table table-bordered">
                      <tbody>
-                        <tr>
-                            <td><b>{{$first->user->name}} at {{\Carbon\Carbon::parse($first->created_at)->format('d.m.Y H:i:s')}}:</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{$first->msg}}
-                            </td>
+                        <tr><td>
+                            <dialog-component user="{{$first->user->name}}" role="{{$first->user->role}}" dt="{{\Carbon\Carbon::parse($first->created_at)->format('d.m.Y H:i:s')}}" msgtext="{{$first->msg}}"></dialog-component>
+                        </td>
                         </tr>
                      @foreach ( $msgs as $msg )
                         <tr>
-                            <td><b>{{$msg->user->name}} at {{\Carbon\Carbon::parse($msg->created_at)->format('d.m.Y H:i:s')}}:</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>{{$msg->msg}}
+                            <td><dialog-component user="{{$msg->user->name}}" role="{{$msg->user->role}}" dt="{{\Carbon\Carbon::parse($msg->created_at)->format('d.m.Y H:i:s')}}" msgtext="{{$msg->msg}}"></dialog-component>
                             </td>
                         </tr>
                      @endforeach
