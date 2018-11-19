@@ -5,16 +5,31 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\FeedbackPost;
 use App\Feedback;
+use App\UserVars;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class FeedbackController extends Controller
 {
     public function saveFeedback(FeedbackPost $request)
     {
-        $img='';
+        $dtLastFeedback = UserVars::getValue('dt_last_feedback',Auth::id());
+        if(null!=$dtLastFeedback)
+        {
+            $dt=Carbon::parse($dtLastFeedback);
+            $dt=$dt->addMinutes(5);
+            $today=Carbon::now();
+            if($dt>$today) {
+                $remainMinutes=$dt->diffInMinutes($today)+1;
+                return Redirect::back()->withErrors(['freqRequest'=> "You can't create feedback too frequently. Please wait at least $remainMinutes minutes."]);
+            }
+        }
+
+        $img = '';
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $name=$image->getClientOriginalName();
+            $name = $image->getClientOriginalName();
             $destinationPath = public_path('/uploads');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
@@ -26,7 +41,8 @@ class FeedbackController extends Controller
             'msg' => $request['msg'],
             'img' => $img,
         ]);
-        
+        UserVars::setValue('dt_last_feedback',date("Y-m-d H:i:s"),Auth::id());
+
         return redirect(url('/feedbacks'));
     }
 
