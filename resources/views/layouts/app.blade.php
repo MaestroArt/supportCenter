@@ -34,14 +34,14 @@
                         @auth
                             @if (Auth::user()->role=="manager")
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/home">All feedbacks</a>
+                                    <a class="nav-link" href="/feedbacks">All feedbacks</a>
                                 </li>
                             @else
                                 <li class="nav-item">
                                     <a class="nav-link" href="/feedback">Create feedback</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/home">My feedbacks</a>
+                                    <a class="nav-link" href="/feedbacks">My feedbacks</a>
                                 </li>
                             @endif
                         @endauth
