@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ClientMessage;
+
 class FeedbackController extends Controller
 {
     public function saveFeedback(FeedbackPost $request)
@@ -42,6 +45,8 @@ class FeedbackController extends Controller
             'img' => $img,
         ]);
         UserVars::setValue('dt_last_feedback',date("Y-m-d H:i:s"),Auth::id());
+
+        Mail::to("support@maestrotools.ru")->send(new ClientMessage());
 
         return redirect(url('/feedbacks'));
     }
