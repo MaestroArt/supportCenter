@@ -35,8 +35,12 @@ class FeedbackController extends Controller
             $name = $image->getClientOriginalName();
             $destinationPath = public_path('/uploads');
             $imagePath = $destinationPath. "/".  $name;
-            $image->move($destinationPath, $name);
-            $img = $name;
+            try {
+                $image->move($destinationPath, $name);
+                $img = $name;
+            } catch (\Exception $e) {
+                //file didn't load in our folder
+            }
         }
         Feedback::create([
             'title' => $request['title'],
