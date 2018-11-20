@@ -46,7 +46,11 @@ class FeedbackController extends Controller
         ]);
         UserVars::setValue('dt_last_feedback',date("Y-m-d H:i:s"),Auth::id());
 
-        Mail::to("support@maestrotools.ru")->send(new ClientMessage());
+        try {    
+            Mail::to("support@maestrotools.ru")->send(new ClientMessage());
+        } catch (\Exception $e) {
+            //email not sent
+        }
 
         return redirect(url('/feedbacks'));
     }
