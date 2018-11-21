@@ -50,11 +50,7 @@ class FeedbackController extends Controller
         ]);
         UserVars::setValue('dt_last_feedback',date("Y-m-d H:i:s"),Auth::id());
 
-        try {    
-            Mail::to("support@maestrotools.ru")->send(new ClientMessage());
-        } catch (\Exception $e) {
-            //email not sent
-        }
+        $this->sendEmail();
 
         return redirect(url('/feedbacks'));
     }
@@ -97,11 +93,21 @@ class FeedbackController extends Controller
                 $feedback->status='answered';
             }else {
                 $feedback->status='question';
+                $this->sendEmail();
             }
             $feedback->push();
         }
         
         return redirect(url('/dialog/'.$request['feedback_id']));
+    }
+    protected function sendEmail($to='support@maestrotools.ru')
+    {
+        try {    
+            Mail::to($to)->send(new ClientMessage(Auth::user()->email));
+        } catch (\Exception $e) {
+            return false;
+        }
+        return true;
     }
 
 }

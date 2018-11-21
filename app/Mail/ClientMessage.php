@@ -11,14 +11,16 @@ class ClientMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $fromEmail;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($fromEmail)
     {
-        //
+        $this->fromEmail=$fromEmail;
     }
 
     /**
@@ -28,6 +30,7 @@ class ClientMessage extends Mailable
      */
     public function build()
     {
-        return $this->view('email');
+        return $this->from($this->fromEmail)
+                    ->view('email');
     }
 }
